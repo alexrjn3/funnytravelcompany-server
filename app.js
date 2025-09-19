@@ -27,7 +27,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, // frontend dev server
+    origin: "https://funnytravelcompany-client.vercel.app", // frontend dev server
     credentials: true, // permite trimiterea cookie-urilor
   })
 );
