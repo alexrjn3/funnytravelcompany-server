@@ -157,6 +157,7 @@ const createOferta = [
     if (data.data) data.data = new Date(data.data);
 
     // array cu path-urile imaginilor încărcate
+    console.log(req.files);
     if (req.files && req.files.length > 0) {
       data.images = req.files.map((file) => file.path);
     }

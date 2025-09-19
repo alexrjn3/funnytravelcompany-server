@@ -89,7 +89,18 @@ export function creareOfertePage() {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const formData = new FormData(form);
+    const formData = new FormData();
+    const files = form.querySelector('input[name="images"]').files;
+
+    for (let i = 0; i < files.length; i++) {
+      formData.append("images", files[i]); // must match server field name
+    }
+
+    // append other form fields
+    const otherFields = new FormData(form);
+    for (let [key, value] of otherFields.entries()) {
+      if (key !== "images") formData.append(key, value);
+    }
 
     try {
       const res = await fetch("/api/v1/oferte", {
