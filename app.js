@@ -34,7 +34,17 @@ app.use(
 app.options("*", cors());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https://res.cloudinary.com"],
+        // add other directives as needed
+      },
+    },
+  })
+);
 
 const limiter = rateLimit({
   max: 100,
