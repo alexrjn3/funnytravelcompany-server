@@ -21,7 +21,7 @@ import AppError from "./utils/appError.js";
 import authController from "./controllers/authController.js";
 import globalErrorHandler from "./controllers/errorController.js";
 
-const app = express();
+export const app = express();
 app.set("trust proxy", 1); // trust first proxy
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
