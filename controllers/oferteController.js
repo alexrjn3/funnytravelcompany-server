@@ -5,6 +5,7 @@ import upload from "./../utils/incarcarePoza.js";
 import getNextId from "../utils/getNextId.js";
 import path from "path";
 import { promises as fs } from "fs";
+import dbConnect from "../utils/dbConnect.js";
 
 const getSomeOferte = catchAsync(async (req, res, next) => {
   const { type } = req.params;
@@ -17,7 +18,7 @@ const getSomeOferte = catchAsync(async (req, res, next) => {
   } else {
     return next(new AppError("Tip de oferte invalid", 400));
   }
-
+  await dbConnect();
   const oferte = await Oferta.find(filter).limit(12);
 
   if (!oferte || oferte.length === 0) {
@@ -43,7 +44,7 @@ const getAllTypeOferte = catchAsync(async (req, res, next) => {
   } else {
     return next(new AppError("Tip de oferte invalid", 400));
   }
-
+  await dbConnect();
   const oferte = await Oferta.find(filter); // no limit, return all
 
   if (!oferte || oferte.length === 0) {
@@ -60,6 +61,7 @@ const getAllTypeOferte = catchAsync(async (req, res, next) => {
 
 const getOferta = catchAsync(async (req, res, next) => {
   const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id);
+  await dbConnect();
   const oferta = await Oferta.findOne({ id });
 
   if (!oferta) {
@@ -75,6 +77,7 @@ const getOferta = catchAsync(async (req, res, next) => {
 });
 
 const getAllOferte = catchAsync(async (req, res, next) => {
+  await dbConnect();
   const oferte = await Oferta.find();
 
   if (!oferte) {
@@ -97,7 +100,7 @@ const updateOferta = catchAsync(async (req, res, next) => {
   if ("__v" in req.body) delete req.body.__v;
 
   if (!req.body.coord) req.body.coord = { x: 0, y: 0 };
-
+  await dbConnect();
   const oferta = await Oferta.findOneAndUpdate(
     { id }, // acum tipul corespunde
     req.body,
@@ -118,7 +121,7 @@ const updateOferta = catchAsync(async (req, res, next) => {
 
 const deleteOferta = catchAsync(async (req, res, next) => {
   const id = isNaN(req.params.id) ? req.params.id : Number(req.params.id);
-
+  await dbConnect();
   const oferta = await Oferta.findOne({ id });
 
   if (!oferta) {
@@ -134,7 +137,7 @@ const deleteOferta = catchAsync(async (req, res, next) => {
       console.warn("Could not delete poster:", err.message);
     }
   }
-
+  await dbConnect();
   // Ștergem oferta din DB
   await Oferta.deleteOne({ id });
 
@@ -172,7 +175,7 @@ const createOferta = [
     }
 
     data.id = await getNextId();
-
+    await dbConnect();
     const oferta = await Oferta.create(data);
 
     res.status(201).json({
@@ -186,7 +189,7 @@ const createOferta = [
 
 const getTipOferte = catchAsync(async (req, res, next) => {
   const { tipOferta } = req.params;
-
+  await dbConnect();
   const oferte = await Oferta.find({
     type_oferta: { $regex: `^${tipOferta}$`, $options: "i" },
   });

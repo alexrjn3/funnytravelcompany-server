@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import User from "./../models/userModel.js";
 import catchAsync from "../utils/catchAsync.js";
 import AppError from "../utils/appError.js";
+import dbConnect from "../utils/dbConnect.js";
 // const Email = require("./../utils/email");
 
 const signToken = (id) => {
@@ -44,6 +45,7 @@ const login = catchAsync(async (req, res, next) => {
     return next(new AppError("Please provide email and password!", 400));
   }
   // 2) Check if user exists && password is correct
+  await dbConnect();
   const user = await User.findOne({ email }).select("+password");
 
   if (!user || !(await user.correctPassword(password, user.password))) {
@@ -105,6 +107,7 @@ const isLoggedIn = async (req, res, next) => {
       );
 
       // 2) Check if user still exists
+      await dbConnect();
       const currentUser = await User.findById(decoded.id);
       if (!currentUser) {
         return next();
