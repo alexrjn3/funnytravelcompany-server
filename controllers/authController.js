@@ -22,7 +22,7 @@ const createSendToken = (user, statusCode, req, res) => {
     ),
     httpOnly: true, //XXS
     secure: req.secure || req.headers["x-forwarded-proto"] === "https", //https doar
-    sameSite: "lax", // sau "none" + secure true dacă folosești HTTPS
+    sameSite: "none", // sau "none" + secure true dacă folosești HTTPS
   });
 
   // Remove password from output
