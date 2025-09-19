@@ -52,7 +52,7 @@ async function loadOferte() {
       card.innerHTML = `
         <button class="btn btn-edit">Edit</button>
         <button class="btn btn-delete">Delete</button>
-        <img src="/posters/${offer.images[0]}" alt="no-photo" />
+        <img src="${offer.images[0]}" alt="no-photo" />
         <div class="card-info">${infoHtml}</div>
       `;
       // atașăm oferta pe card pentru acces rapid la edit

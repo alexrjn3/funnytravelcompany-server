@@ -15,12 +15,7 @@ export default async function dbConnect() {
   );
 
   if (!cached.promise) {
-    cached.promise = mongoose
-      .connect(DB, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      })
-      .then((mongoose) => mongoose);
+    cached.promise = mongoose.connect(DB).then((mongoose) => mongoose);
   }
 
   cached.conn = await cached.promise;
