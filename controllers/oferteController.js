@@ -151,18 +151,16 @@ const createOferta = [
   upload.array("images", 10), // middleware pentru upload
   catchAsync(async (req, res, next) => {
     const data = { ...req.body };
-    console.log(data);
+
     data.new_Oferta = data.new_Oferta === "on" || data.new_Oferta === true;
     if (data.price) data.price = Number(data.price);
     if (data.data) data.data = new Date(data.data);
 
     // array cu path-urile imaginilor încărcate
     if (req.files && req.files.length > 0) {
-      data.images = req.files.map((file) => {
-        return `${file.filename}`;
-      });
+      data.images = req.files.map((file) => file.path);
     }
-    console.log(data);
+
     if (data.coord_x !== undefined && data.coord_y !== undefined) {
       data.coord = {
         x: parseFloat(data.coord_x),

@@ -13,8 +13,6 @@ import hpp from "hpp";
 import dotenv from "dotenv";
 import compression from "compression";
 
-dotenv.config({ path: "./config.env" });
-
 import oferteRouter from "./routes/oferteRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import AppError from "./utils/appError.js";
