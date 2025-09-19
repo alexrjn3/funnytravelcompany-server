@@ -27,7 +27,7 @@ const __dirname = path.dirname(__filename);
 
 app.use(
   cors({
-    origin: "http://localhost:1234", // frontend dev server
+    origin: process.env.CLIENT_URL, // frontend dev server
     credentials: true, // permite trimiterea cookie-urilor
   })
 );

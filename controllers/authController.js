@@ -87,7 +87,7 @@ export const protectPage = catchAsync(async (req, res, next) => {
   }
 
   if (!token || token === "loggedout") {
-    return res.redirect("http://localhost:1234/login");
+    return res.redirect(`${process.env.CLIENT_URL}login`);
   }
 
   // verificare token aici
